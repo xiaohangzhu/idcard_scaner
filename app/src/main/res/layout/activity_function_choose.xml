@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_function_choose"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.newhope.idcardscan.FunctionChooseActivity">
+
+    <Button
+        android:id="@+id/button_idCardIdentify"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:onClick="click_button_idCardIdentify"
+        android:text="@string/idCardIdentify" />
+
+    <Button
+        android:onClick="click_button_bankCardIdentify"
+        android:id="@+id/button_bankCardIdentify"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/bankCardIdentify" />
+</LinearLayout>
