@@ -127,6 +127,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback,CBInt
 		}
 		engineDemo = (TRECAPIImpl) getIntent().getSerializableExtra("engine");
 		TStatus ret = engineDemo.TR_SetSupportEngine(tengineID);
+
 		if (ret != TStatus.TR_OK) {
 			Toast.makeText(getBaseContext(), "引擎不支持", Toast.LENGTH_SHORT).show();
 			CloseView();

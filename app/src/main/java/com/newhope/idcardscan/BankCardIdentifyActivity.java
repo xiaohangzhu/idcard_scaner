@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -83,7 +82,6 @@ public class BankCardIdentifyActivity extends AppCompatActivity {
      */
     public static void saveBitmap(String bitName, Bitmap mBitmap) {
         File f = new File(catchpath, bitName);
-        Log.d("idCardScan", f.getAbsolutePath());
         if (f.exists()) {
             f.delete();
         }

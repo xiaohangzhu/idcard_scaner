@@ -7,6 +7,47 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <!--<uses-permission android:name="android.permission.HARDWARE_TEST"/>-->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <!-- 百度-wifi 基站定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 百度-GPS 精准定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 百度-WIFI 状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 百度-联网状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 百度-改变WIFI 状态 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 百度-读取手机状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 百度-SD卡 容量及状态查询 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 百度-读取系统日志 -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- 保持屏幕唤醒 -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <!-- 百度-允许读写系统设置 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 公用  读取 联系人 选择联系人时用到 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- 公用  联网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 公用 SDK-读写 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 公用 SDK 容量 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- zxing 相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- zxing 震动 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- zxing 闪光灯 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,11 +69,6 @@
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity android:name=".FunctionChooseActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".BankCardIdentifyActivity" />
         <activity android:name=".IDCardIdentifyActivity" />
