@@ -1,6 +1,7 @@
-Ò»ÅäÖÃ
-1.½«ÎÄ¼şcardScan.aar·ÅÈëÏîÄ¿libÎÄ¼ş¼ĞÄ¿Â¼ÏÂ
-2.GradleÅäÖÃ ÒıÈëÎÄ¼ş
+```
+ä¸€é…ç½®
+1.å°†æ–‡ä»¶cardScan.aaræ”¾å…¥é¡¹ç›®libæ–‡ä»¶å¤¹ç›®å½•ä¸‹
+2.Gradleé…ç½® å¼•å…¥æ–‡ä»¶
 
 android {
 repositories {
@@ -11,17 +12,17 @@ repositories {
 dependencies {
         compile(name: 'cardScan_1.0', ext: 'aar')
 }
-¶şÊ¹ÓÃ·½·¨
-Í¨¹ıBitMap¶ÔÏó»ñÈ¡Êı¾İ
-1.ÉùÃ÷CardScaner¶ÔÏó
+äºŒä½¿ç”¨æ–¹æ³•
+é€šè¿‡BitMapå¯¹è±¡è·å–æ•°æ®
+1.å£°æ˜CardScanerå¯¹è±¡
 private CardScaner scaner;
-2.³õÊ¼»¯
+2.åˆå§‹åŒ–
 scaner = new CardScaner(this);
-3.ÉèÖÃ¼àÌı£¨½öÕë¶ÔÓÚÍ¨¹ıBitmap»ñÈ¡ĞÅÏ¢µÄ·½Ê½£©£¨ÒøĞĞ¿¨ĞÅÏ¢²»ÍÆ¼öÊ¹ÓÃÕâÖÖ·½Ê½£¬ÒòÎªÒøĞĞ¿¨Ê¶±ğÊÇ·ñ³É¹¦²»½öÈ¡¾öÓÚÍ¼Æ¬ÇåÎú¶È£¬»¹ÓĞÆäËûÒòËØ£¬¾ßÌå²»Ã÷£©
+3.è®¾ç½®ç›‘å¬ï¼ˆä»…é’ˆå¯¹äºé€šè¿‡Bitmapè·å–ä¿¡æ¯çš„æ–¹å¼ï¼‰ï¼ˆé“¶è¡Œå¡ä¿¡æ¯ä¸æ¨èä½¿ç”¨è¿™ç§æ–¹å¼ï¼Œå› ä¸ºé“¶è¡Œå¡è¯†åˆ«æ˜¯å¦æˆåŠŸä¸ä»…å–å†³äºå›¾ç‰‡æ¸…æ™°åº¦ï¼Œè¿˜æœ‰å…¶ä»–å› ç´ ï¼Œå…·ä½“ä¸æ˜ï¼‰
 scaner.GetDataListener(new CardScaner.DataListener() {
     @Override
     public void data(int i, Object o) {
-	//Ê¶±ğ³É¹¦
+	//è¯†åˆ«æˆåŠŸ
         switch (i) {
             case CardScaner.IDCardFront:
                 CardInfo cardInfoFront;
@@ -59,34 +60,34 @@ scaner.GetDataListener(new CardScaner.DataListener() {
     }
 @Override
 public void error() {
-       //Ê¶±ğ´íÎó
+       //è¯†åˆ«é”™è¯¯
 }
 
 @Override
 public void start() {
-      //¿ªÊ¼Ê¶±ğ
+      //å¼€å§‹è¯†åˆ«
 }
 
 @Override
 public void end() {
-      //Ê¶±ğ½áÊø
+      //è¯†åˆ«ç»“æŸ
 }
 
-4.»ñÈ¡Êı¾İ
-scaner.getIDCardFrontData(bitmap);//»ñÈ¡Éí·İÖ¤Ç°µÄĞÅÏ¢
-scaner.getIDCardBackData(bitmap);//»ñÈ¡Éí·İÖ¤ºóµÄĞÅÏ¢
-scaner.getBankCardData(bitmap);//»ñÈ¡ÒøĞĞ¿¨ĞÅÏ¢£¨²»ÍÆ¼ö£©
+4.è·å–æ•°æ®
+scaner.getIDCardFrontData(bitmap);//è·å–èº«ä»½è¯å‰çš„ä¿¡æ¯
+scaner.getIDCardBackData(bitmap);//è·å–èº«ä»½è¯åçš„ä¿¡æ¯
+scaner.getBankCardData(bitmap);//è·å–é“¶è¡Œå¡ä¿¡æ¯ï¼ˆä¸æ¨èï¼‰
 
-Í¨¹ıÉ¨Ãè·½Ê½»ñÈ¡Êı¾İ
-1.ÉùÃ÷CardScaner¶ÔÏó
+é€šè¿‡æ‰«ææ–¹å¼è·å–æ•°æ®
+1.å£°æ˜CardScanerå¯¹è±¡
 private CardScaner scaner;
-2.³õÊ¼»¯
+2.åˆå§‹åŒ–
 scaner = new CardScaner(this);
-3.Æô¶¯É¨Ãè
-scaner.scanBankCard(this); //É¨ÃèÒøĞĞ¿¨ĞÅÏ¢
-scaner.scanIDCardBack(this); //É¨ÃèÉí·İÖ¤ºóĞÅÏ¢
-scaner.scanIDCardFront(this);//É¨ÃèÉí·İÖ¤Ç°ĞÅÏ¢
-4.ÉèÖÃonActivityResult»ñÈ¡Êı¾İ
+3.å¯åŠ¨æ‰«æ
+scaner.scanBankCard(this); //æ‰«æé“¶è¡Œå¡ä¿¡æ¯
+scaner.scanIDCardBack(this); //æ‰«æèº«ä»½è¯åä¿¡æ¯
+scaner.scanIDCardFront(this);//æ‰«æèº«ä»½è¯å‰ä¿¡æ¯
+4.è®¾ç½®onActivityResultè·å–æ•°æ®
 
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -94,53 +95,54 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch (requestCode) {
         case CardScaner.ScanIDCardFront:
           
-            Bitmap takeFront = TRCardScan.TakeBitmap;  // ÕıÃæ
+            Bitmap takeFront = TRCardScan.TakeBitmap;  // æ­£é¢
             if (takeFront == null) {
-                Toast.makeText(MainActivity.this, "É¨ÃèÊ§°Ü,ÇëÖØĞÂÉ¨ÃèÉí·İÖ¤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "æ‰«æå¤±è´¥,è¯·é‡æ–°æ‰«æèº«ä»½è¯", Toast.LENGTH_SHORT).show();
                 return;
             }
             CardInfo cardInfo = (CardInfo) data.getSerializableExtra("cardinfo");
             if (TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.NAME)) || TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.ADDRESS)) || TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.NUM))) {
-                Toast.makeText(MainActivity.this, "É¨ÃèÊ§°Ü£¬Çë±£Ö¤Éí·İÖ¤ÇåÎú", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "æ‰«æå¤±è´¥ï¼Œè¯·ä¿è¯èº«ä»½è¯æ¸…æ™°", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Toast.makeText(MainActivity.this, "ĞÕÃû£º" + cardInfo.getFieldString(TFieldID.NAME) + "\n"
-                    + "Éí·İÖ¤ºÅ£º" + cardInfo.getFieldString(TFieldID.NUM) + "\n"
-                    + "¼ÒÍ¥×¡Ö·£º" + cardInfo.getFieldString(TFieldID.ADDRESS), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "å§“åï¼š" + cardInfo.getFieldString(TFieldID.NAME) + "\n"
+                    + "èº«ä»½è¯å·ï¼š" + cardInfo.getFieldString(TFieldID.NUM) + "\n"
+                    + "å®¶åº­ä½å€ï¼š" + cardInfo.getFieldString(TFieldID.ADDRESS), Toast.LENGTH_SHORT).show();
             break;
         case CardScaner.ScanBankCard:
          
             Bundle bundle = data.getExtras();
             String result = bundle.getString("result");
-            Bitmap numberBitmap = CaptureActivity.SmallBitmap;//ºÅÂë½ØÍ¼
-            Bitmap allBitmap = CaptureActivity.TakeBitmap;// È«Í¼
-            //Ñ¹Ëõ ´¢´æ ¶ÁÈ¡ BitMap
+            Bitmap numberBitmap = CaptureActivity.SmallBitmap;//å·ç æˆªå›¾
+            Bitmap allBitmap = CaptureActivity.TakeBitmap;// å…¨å›¾
+            //å‹ç¼© å‚¨å­˜ è¯»å– BitMap
             CardInfo cardInfo2 = (CardInfo) data.getSerializableExtra("cardinfo");
             String cardNum = cardInfo2.getFieldString(TFieldID.TBANK_NUM);
-            Toast.makeText(MainActivity.this, "ÒøĞĞ¿¨¿¨ºÅ£º" + cardInfo2.getFieldString(TFieldID.TBANK_NUM) + "\n"
-                    +"£º" + cardInfo2.getFieldString(TFieldID.TBANK_CARD_NAME) + "\n"
-                    +"£º" + cardInfo2.getFieldString(TFieldID.TBANK_CLASS) + "\n"
-                    +"£º" + cardInfo2.getFieldString(TFieldID.TBANK_NAME) + "\n"
-                    +"£º" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_CHECKSTATUS) + "\n"
-                    +"£º" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_REGION) + "\n"
-                    + "£º" + cardInfo2.getFieldString(TFieldID.TBANK_ORGCODE), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "é“¶è¡Œå¡å¡å·ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_NUM) + "\n"
+                    +"ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_CARD_NAME) + "\n"
+                    +"ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_CLASS) + "\n"
+                    +"ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_NAME) + "\n"
+                    +"ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_CHECKSTATUS) + "\n"
+                    +"ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_REGION) + "\n"
+                    + "ï¼š" + cardInfo2.getFieldString(TFieldID.TBANK_ORGCODE), Toast.LENGTH_LONG).show();
             break;
         case CardScaner.ScanIDCardBack:
         
-            Bitmap takeBack = TRCardScan.TakeBitmap;  // ·´Ãæ
+            Bitmap takeBack = TRCardScan.TakeBitmap;  // åé¢
             if (takeBack == null) {
-                Toast.makeText(MainActivity.this, "É¨ÃèÊ§°Ü,ÇëÖØĞÂÉ¨ÃèÉí·İÖ¤", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "æ‰«æå¤±è´¥,è¯·é‡æ–°æ‰«æèº«ä»½è¯", Toast.LENGTH_SHORT).show();
                 return;
             }
             CardInfo cardInfo3 = (CardInfo) data.getSerializableExtra("cardinfo");
             if (TextUtils.isEmpty(cardInfo3.getFieldString(TFieldID.PERIOD))) {
-                Toast.makeText(MainActivity.this, "É¨ÃèÊ§°Ü£¬Çë±£Ö¤Éí·İÖ¤ÇåÎú", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "æ‰«æå¤±è´¥ï¼Œè¯·ä¿è¯èº«ä»½è¯æ¸…æ™°", Toast.LENGTH_LONG).show();
                 return;
             }
-            Toast.makeText(MainActivity.this, "Ç©Ö¤»ú¹Ø£º" + cardInfo3.getFieldString(TFieldID.ISSUE) + "\n"
-                    + "ÓĞĞ§ÆÚ£º" + cardInfo3.getFieldString(TFieldID.PERIOD), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "ç­¾è¯æœºå…³ï¼š" + cardInfo3.getFieldString(TFieldID.ISSUE) + "\n"
+                    + "æœ‰æ•ˆæœŸï¼š" + cardInfo3.getFieldString(TFieldID.PERIOD), Toast.LENGTH_LONG).show();
             break;
     }
 }
+```
 
 
