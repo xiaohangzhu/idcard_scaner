@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        scaner.getIDCardFrontData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test2)));
 //        scaner.getIDCardBackData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test7)));
-        scaner.getBankCardData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test)));
+//        scaner.getBankCardData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test)));
     }
 
     public void startActivity(View view) {
