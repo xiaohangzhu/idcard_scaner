@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,7 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class IDCardIdentifyActivity extends AppCompatActivity {
 
     private TextView textView_scan_idCard_front;
     private TextView textView_scan_idCard_back;
@@ -52,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_id_card_identify);
 
         textView_scan_idCard_front = (TextView) findViewById(R.id.textView_scan_idCard_front);
         textView_scan_idCard_back = (TextView) findViewById(R.id.textView_scan_idCard_back);
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout_scan_idCard_back = (RelativeLayout) findViewById(R.id.relativeLayout_scan_idCard_back);
         relativeLayout_scan_idCard_all = (RelativeLayout) findViewById(R.id.relativeLayout_scan_idCard_all);
 
-        initSdk();
+        initSDK();
         catchpath = getCacheDir().getAbsolutePath();
 
         relativeLayout_scan_idCard_front.setOnClickListener(new View.OnClickListener() {
@@ -97,21 +95,21 @@ public class MainActivity extends AppCompatActivity {
     private void toScan(int scanWhich) {
         boolean b = sdcardExist();
         if (!b) {
-            Toast.makeText(MainActivity.this, "未插入内存卡", Toast.LENGTH_SHORT).show();
+            Toast.makeText(IDCardIdentifyActivity.this, "未插入内存卡", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent;
         switch (scanWhich) {
             case SCAN_IDCARD_FRONT:
                 TRCardScan.isOpenProgress = true;
-                intent = new Intent(MainActivity.this, TRCardScan.class);
+                intent = new Intent(IDCardIdentifyActivity.this, TRCardScan.class);
                 intent.putExtra("engine", engineDemo);
                 intent.putExtra(TRCardScan.tag, TRCardScan.ONFONT);
                 startActivityForResult(intent, SCAN_IDCARD_FRONT);
                 break;
             case SCAN_IDCARD_BACK:
                 TRCardScan.isOpenProgress = true;
-                intent = new Intent(MainActivity.this, TRCardScan.class);
+                intent = new Intent(IDCardIdentifyActivity.this, TRCardScan.class);
                 intent.putExtra("engine", engineDemo);
                 intent.putExtra(TRCardScan.tag, TRCardScan.ONBACK);
                 startActivityForResult(intent, SCAN_IDCARD_BACK);
@@ -135,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 初始化sdk
      */
-    private void initSdk() {
+    private void initSDK() {
         TRCardScan.SetEngineType(TengineID.TIDCARD2);
         TStatus tStatus = engineDemo.TR_StartUP();
         if (tStatus == TStatus.TR_TIME_OUT) {
@@ -153,19 +151,19 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case SCAN_IDCARD_FRONT:
-                Bitmap takeFront = TRCardScan.TakeBitmap;  // 正面
-                if (takeFront == null) {
-                    Toast.makeText(MainActivity.this, "扫描失败,请重新扫描身份证", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                CardInfo cardInfo = (CardInfo) data.getSerializableExtra("cardinfo");
-                if (TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.NAME)) || TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.ADDRESS)) || TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.NUM))) {
-                    Toast.makeText(MainActivity.this, "扫描失败，请保证身份证清晰", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Toast.makeText(MainActivity.this, "姓名：" + cardInfo.getFieldString(TFieldID.NAME) + "\n"
-                        + "身份证号：" + cardInfo.getFieldString(TFieldID.NUM) + "\n"
-                        + "家庭住址：" + cardInfo.getFieldString(TFieldID.ADDRESS), Toast.LENGTH_SHORT).show();
+                    Bitmap takeFront = TRCardScan.TakeBitmap;  // 正面
+                    if (takeFront == null) {
+                        Toast.makeText(IDCardIdentifyActivity.this, "扫描失败,请重新扫描身份证", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    CardInfo cardInfo = (CardInfo) data.getSerializableExtra("cardinfo");
+                    if (TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.NAME)) || TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.ADDRESS)) || TextUtils.isEmpty(cardInfo.getFieldString(TFieldID.NUM))) {
+                        Toast.makeText(IDCardIdentifyActivity.this, "扫描失败，请保证身份证清晰", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(IDCardIdentifyActivity.this, "姓名：" + cardInfo.getFieldString(TFieldID.NAME) + "\n"
+                            + "身份证号：" + cardInfo.getFieldString(TFieldID.NUM) + "\n"
+                            + "家庭住址：" + cardInfo.getFieldString(TFieldID.ADDRESS), Toast.LENGTH_SHORT).show();
                 //压缩 储存 读取 BitMap
                 int bitmap_width = 600;
                 int bitmap_height = (bitmap_width * takeFront.getHeight()) / takeFront.getWidth();
@@ -176,15 +174,15 @@ public class MainActivity extends AppCompatActivity {
             case SCAN_IDCARD_BACK:
                 Bitmap takeBack = TRCardScan.TakeBitmap;  // 反面
                 if (takeBack == null) {
-                    Toast.makeText(MainActivity.this, "扫描失败,请重新扫描身份证", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IDCardIdentifyActivity.this, "扫描失败,请重新扫描身份证", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 CardInfo cardInfo2 = (CardInfo) data.getSerializableExtra("cardinfo");
                 if (TextUtils.isEmpty(cardInfo2.getFieldString(TFieldID.PERIOD)) || !verityPeriod(cardInfo2.getFieldString(TFieldID.PERIOD))) {
-                    Toast.makeText(MainActivity.this, "扫描失败，请保证身份证清晰", Toast.LENGTH_LONG).show();
+                    Toast.makeText(IDCardIdentifyActivity.this, "扫描失败，请保证身份证清晰", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(MainActivity.this, "签证机关：" + cardInfo2.getFieldString(TFieldID.ISSUE) + "\n"
+                Toast.makeText(IDCardIdentifyActivity.this, "签证机关：" + cardInfo2.getFieldString(TFieldID.ISSUE) + "\n"
                         + "有效期：" + cardInfo2.getFieldString(TFieldID.PERIOD), Toast.LENGTH_LONG).show();
                 //压缩 储存 读取 BitMap
                 int bitmap_width2 = 600;
@@ -235,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public static void saveBitmap(String bitName, Bitmap mBitmap) {
         File f = new File(catchpath, bitName);
-        Log.d("idCardScan", f.getAbsolutePath());
         if (f.exists()) {
             f.delete();
         }

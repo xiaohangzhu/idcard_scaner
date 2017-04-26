@@ -127,6 +127,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback,CBInt
 		}
 		engineDemo = (TRECAPIImpl) getIntent().getSerializableExtra("engine");
 		TStatus ret = engineDemo.TR_SetSupportEngine(tengineID);
+
 		if (ret != TStatus.TR_OK) {
 			Toast.makeText(getBaseContext(), "引擎不支持", Toast.LENGTH_SHORT).show();
 			CloseView();
@@ -536,7 +537,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback,CBInt
 					mThreadActivityRef.get().WriteFile("MyThread TR_FreeImage\n");
 				}
 				mThreadActivityRef.get().engineDemo.TR_FreeImage();
-				//isRecSucess = MainActivity.engineDemo.RunOCR(rectBitmap, null);
+				//isRecSucess = IDCardIdentifyActivity.engineDemo.RunOCR(rectBitmap, null);
 				if (isRecSucess == TStatus.TR_OK) {
 					if (tengineID == TengineID.TIDCARD2) {
 						String name = mThreadActivityRef.get().engineDemo.TR_GetOCRFieldStringBuf(TFieldID.NAME);

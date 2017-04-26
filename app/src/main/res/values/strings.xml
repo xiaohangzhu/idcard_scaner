@@ -3,4 +3,7 @@
     <string name="scan_idCard_front">扫描身份证正面图像</string>
     <string name="scan_idCard_back">扫描身份证后面图像</string>
     <string name="scan_idCard_all">拍摄手持身份证图像</string>
+    <string name="bankCardIdentify">银行卡识别</string>
+    <string name="idCardIdentify">身份证识别</string>
+    <string name="idCardFrontByImg">通过Bitmap身份证前信息</string>
 </resources>
