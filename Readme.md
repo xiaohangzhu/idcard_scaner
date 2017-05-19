@@ -170,5 +170,3 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             break;
     }
 } ` 
-
-
