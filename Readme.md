@@ -1,8 +1,10 @@
-#配置
+# 配置
 
-##使用cardScan.aar
-###1.将文件cardScan.aar放入项目lib文件夹目录下
-###2.Gradle配置 引入文件
+## 使用cardScan.aar
+
+### 1.将文件cardScan.aar放入项目lib文件夹目录下
+
+### 2.Gradle配置 引入文件
 
  ` android {
 repositories {
@@ -15,9 +17,12 @@ dependencies {
         compile(name: 'cardScan_1.0', ext: 'aar')
 } ` 
 
-##使用cardScan.jar
-###1.将文件cardScan.jar放入项目lib文件夹目录下
-###2.配置manifest
+## 使用cardScan.jar
+
+### 1.将文件cardScan.jar放入项目lib文件夹目录下
+
+### 2.配置manifest
+
 权限
 
  `<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -38,25 +43,28 @@ dependencies {
             android:windowSoftInputMode="stateAlwaysHidden">`
         </activity>
         
-###3.Gradle配置 引入文件
+### 3.Gradle配置 引入文件
 
    `compile files('libs/classes.jar')` 
    
-###4.添加资源文件
+### 4.添加资源文件
+
 将文件中的资源copy至项目中
 
 
-#使用方法
-##通过BitMap对象获取数据
-###1.声明CardScaner对象
+# 使用方法
+
+## 通过BitMap对象获取数据
+
+### 1.声明CardScaner对象
 
  ` private CardScaner scaner; ` 
  
-###2.初始化
+### 2.初始化
 
  ` scaner = new CardScaner(this); ` 
  
-###3.设置监听（仅针对于通过Bitmap获取信息的方式）（银行卡信息不推荐使用这种方式，因为银行卡识别是否成功不仅取决于图片清晰度，还有其他因素，具体不明）
+### 3.设置监听（仅针对于通过Bitmap获取信息的方式）（银行卡信息不推荐使用这种方式，因为银行卡识别是否成功不仅取决于图片清晰度，还有其他因素，具体不明）
 
  ` scaner.GetDataListener(new CardScaner.DataListener() {
     @Override
@@ -112,28 +120,29 @@ public void end() {
       //识别结束
 }  ` 
 
-###4.获取数据
+### 4.获取数据
 
  ` scaner.getIDCardFrontData(bitmap);//获取身份证前的信息 ` 
  ` scaner.getIDCardBackData(bitmap);//获取身份证后的信息 ` 
  ` scaner.getBankCardData(bitmap);//获取银行卡信息（不推荐） ` 
 
-##通过扫描方式获取数据
-###1.声明CardScaner对象
+## 通过扫描方式获取数据
+
+### 1.声明CardScaner对象
 
  ` private CardScaner scaner; ` 
  
-###2.初始化
+### 2.初始化
 
  ` scaner = new CardScaner(this); ` 
  
-###3.启动扫描
+### 3.启动扫描
 
  ` scaner.scanBankCard(this); //扫描银行卡信息 ` 
  ` scaner.scanIDCardBack(this); //扫描身份证后信息 ` 
  ` scaner.scanIDCardFront(this);//扫描身份证前信息 ` 
  
-###4.设置onActivityResult获取数据
+### 4.设置onActivityResult获取数据
 
  ` @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
