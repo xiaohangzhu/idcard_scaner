@@ -17,14 +17,15 @@ dependencies {
 
 ##使用cardScan.jar
 ###1.将文件cardScan.jar放入项目lib文件夹目录下
-###2.	配置manifest
 ###2.配置manifest
 权限
+
  `<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE"/> `
     
  Activity
+ 
   ` <activity
             android:name="com.turui.bank.ocr.card.TRCardScan"
             android:screenOrientation="landscape">
@@ -169,4 +170,4 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
                     + "有效期：" + cardInfo3.getFieldString(TFieldID.PERIOD), Toast.LENGTH_LONG).show();
             break;
     }
-} ` 
+} `
