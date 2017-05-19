@@ -68,10 +68,6 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
-        <activity android:name=".FunctionChooseActivity">
-        </activity>
-        <activity android:name=".BankCardIdentifyActivity" />
-        <activity android:name=".IDCardIdentifyActivity" />
     </application>
 
 </manifest>
