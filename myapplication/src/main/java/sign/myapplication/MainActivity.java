@@ -11,11 +11,8 @@ import android.widget.Toast;
 
 import com.idcard.CardInfo;
 import com.idcard.TFieldID;
-import com.newhope.idcardscan.FunctionChooseActivity;
-import com.newhope.idcardscan.IDCardIdentifyActivity;
 import com.sdkInterface.CardScaner;
 import com.turui.bank.ocr.CaptureActivity;
-import com.turui.bank.ocr.card.FormatTools;
 import com.turui.bank.ocr.card.TRCardScan;
 
 public class MainActivity extends AppCompatActivity {
@@ -95,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startActivity2(View view) {
-        startActivity(new Intent(this, FunctionChooseActivity.class));
     }
 
     @Override
