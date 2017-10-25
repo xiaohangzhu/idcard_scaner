@@ -176,17 +176,19 @@ public class CardScaner {
      * 初始化sdk
      */
     private void initIDCardSDK(int i) {
-        dataListener.start();
         switch (i) {
             case IDCardFront:
+                dataListener.start();
                 whichScan = IDCardFront;
                 setEngineType(TengineID.TIDCARD2);
                 break;
             case IDCardBack:
+                dataListener.start();
                 whichScan = IDCardBack;
                 setEngineType(TengineID.TIDCARD2);
                 break;
             case BankCard:
+                dataListener.start();
                 whichScan = BankCard;
                 setEngineType(TengineID.TIDBANK);
                 break;

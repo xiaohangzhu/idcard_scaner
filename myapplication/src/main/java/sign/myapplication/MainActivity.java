@@ -2,25 +2,38 @@ package sign.myapplication;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.idcard.CardInfo;
 import com.idcard.TFieldID;
 import com.sdkInterface.CardScaner;
 import com.turui.bank.ocr.CaptureActivity;
+import com.turui.bank.ocr.card.FormatTools;
 import com.turui.bank.ocr.card.TRCardScan;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     private CardScaner scaner;
+    private String picPath;//照片储存路径
+    private String fileName;//照片名
+    private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageView = (ImageView) findViewById(R.id.imageView);
         scaner = new CardScaner(this);
 
         scaner.GetDataListener(new CardScaner.DataListener() {
@@ -51,14 +64,13 @@ public class MainActivity extends AppCompatActivity {
                     case CardScaner.BankCard:
                         CardInfo bankCardInfo;
                         bankCardInfo = (CardInfo) object;
-                        String contentBank=
+                        String contentBank =
                                 bankCardInfo.getFieldString(TFieldID.TBANK_NUM) +
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_CARD_NAME)+
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_CLASS)+
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_ORGCODE)+
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_NAME)+
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_NUM_REGION)
-                                ;
+                                        bankCardInfo.getFieldString(TFieldID.TBANK_CARD_NAME) +
+                                        bankCardInfo.getFieldString(TFieldID.TBANK_CLASS) +
+                                        bankCardInfo.getFieldString(TFieldID.TBANK_ORGCODE) +
+                                        bankCardInfo.getFieldString(TFieldID.TBANK_NAME) +
+                                        bankCardInfo.getFieldString(TFieldID.TBANK_NUM_REGION);
                         Toast.makeText(MainActivity.this, contentBank, Toast.LENGTH_LONG).show();
                         Log.i("zxh", "dataBack:" + contentBank);
                         break;
@@ -82,13 +94,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        scaner.getIDCardFrontData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test2)));
+        scaner.getIDCardFrontData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test3)));
 //        scaner.getIDCardBackData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test7)));
 //        scaner.getBankCardData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test)));
     }
 
     public void startActivity(View view) {
-        scaner.scanBankCard(this);
+        startCamera();
+    }
+
+    /**
+     * 开启相机
+     */
+    private void startCamera() {
+        fileName = System.currentTimeMillis() + ".png";
+        picPath = Environment.getExternalStorageDirectory().getPath() + "/WWXH" + "/" + fileName;
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + "/WWXH");
+        if (!file.exists() && !file.isDirectory())
+            file.mkdir();
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri uri = Uri.fromFile(new File(picPath));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, 5867);
     }
 
     public void startActivity2(View view) {
@@ -98,6 +125,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            case 5867:
+                File file = new File(picPath);
+                Bitmap zoombitmapBitmap = Util.zoombitmapBitmap(
+                        file.getAbsolutePath(), 800*800);
+                FileImageUtils.saveCatchBitmap(StringUtils.md5(file.getName()), zoombitmapBitmap, MainActivity.this, Environment.getExternalStorageDirectory().getPath() + "/WWXH");
+                File newFile = FileImageUtils.getFile(Environment.getExternalStorageDirectory().getPath() + "/WWXH" + "/" + StringUtils.md5(file.getName()), MainActivity.this);
+                imageView.setImageBitmap(BitmapFactory.decodeFile(newFile.getPath()));
+                scaner.getIDCardFrontData(BitmapFactory.decodeFile(newFile.getPath()));
+                Log.i("zxh", "5867");
+
+                break;
             case CardScaner.ScanIDCardFront:
                 Log.i("zxh", "1");
                 Bitmap takeFront = TRCardScan.TakeBitmap;  // 正面
@@ -124,11 +162,11 @@ public class MainActivity extends AppCompatActivity {
                 CardInfo cardInfo2 = (CardInfo) data.getSerializableExtra("cardinfo");
                 String cardNum = cardInfo2.getFieldString(TFieldID.TBANK_NUM);
                 Toast.makeText(MainActivity.this, "签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NUM) + "\n"
-                        +"签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_CARD_NAME) + "\n"
-                        +"签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_CLASS) + "\n"
-                        +"签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NAME) + "\n"
-                        +"签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_CHECKSTATUS) + "\n"
-                        +"签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_REGION) + "\n"
+                        + "签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_CARD_NAME) + "\n"
+                        + "签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_CLASS) + "\n"
+                        + "签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NAME) + "\n"
+                        + "签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_CHECKSTATUS) + "\n"
+                        + "签证机关：" + cardInfo2.getFieldString(TFieldID.TBANK_NUM_REGION) + "\n"
                         + "有效期：" + cardInfo2.getFieldString(TFieldID.TBANK_ORGCODE), Toast.LENGTH_LONG).show();
                 break;
             case CardScaner.ScanIDCardBack:
