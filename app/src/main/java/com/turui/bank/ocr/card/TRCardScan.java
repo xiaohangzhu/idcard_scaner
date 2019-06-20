@@ -50,7 +50,6 @@ import com.idcard.TParam;
 import com.idcard.TRECAPIImpl;
 import com.idcard.TStatus;
 import com.idcard.TengineID;
-import com.newhope.idcardscan.R;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -179,7 +178,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             HeadImgBitmap = null;
         }
 
-		/*设置提示语 start*/
+        /*设置提示语 start*/
         manager = (WindowManager) getBaseContext().getSystemService(
                 Context.WINDOW_SERVICE);
         display = manager.getDefaultDisplay();
@@ -311,7 +310,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
         RelativeLayout.LayoutParams focusLayoutParams = new RelativeLayout.LayoutParams(48, 48);//displayUtil.dip2px(48), displayUtil.dip2px(48));
         focusIndex.setLayoutParams(focusLayoutParams);
         int strokeWidth1 = 2; // 3dp 边框宽度
-        int strokeColor1 = Color.parseColor("#7FFF00");//边框颜色
+        int strokeColor1 = Color.parseColor("#0084ff");//边框颜色
         int fillColor1 = Color.parseColor("#00000000");//内部填充颜色
         GradientDrawable focus_gd = new GradientDrawable();//创建drawable
         focus_gd.setColor(fillColor1);
@@ -320,7 +319,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
         relativeLayout.addView(focusIndex);
         focusIndex.setVisibility(View.GONE);
         ImageView imageView = new ImageView(this);
-        imageView.setPadding(0, 0, 50, 0);
+        imageView.setPadding(100, 100, 200, 100);
         int intExtra = getIntent().getIntExtra(tag, 0);
         if (ONFONT == intExtra) {
             logtxt.setVisibility(View.GONE);
@@ -346,14 +345,16 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
         main.addView(relativeLayout);
         int strokeWidth = 3; // 3dp 边框宽度
         int roundRadius = 20; // 8dp 圆角半径
-        int strokeColor = Color.parseColor("#fb6d59");//边框颜色
-        int fillColor = Color.parseColor("#f18a47");//内部填充颜色
+        int strokeColor = Color.parseColor("#0084ff");//边框颜色
+        int fillColor = Color.parseColor("#0084ff");//内部填充颜色
+        int textColor = Color.parseColor("#FFFFFF");//内部填充颜色
         GradientDrawable takegd = new GradientDrawable();//创建drawable
         takegd.setColor(fillColor);
         takegd.setCornerRadius(roundRadius);
         takegd.setStroke(strokeWidth, strokeColor);
         Button tack_button = new Button(this);
         tack_button.setText("   拍照   ");
+        tack_button.setTextColor(textColor);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         //此处相当于布局文件中的Android:layout_gravity属性
         lp.gravity = Gravity.RIGHT;
@@ -367,6 +368,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
 
         Button back_button = new Button(this);
         back_button.setText("   返回   ");
+        back_button.setTextColor(textColor);
         back_button.setLayoutParams(lp);
         //此处相当于布局文件中的Android：gravity属性
         back_button.setGravity(Gravity.CENTER);
@@ -403,10 +405,12 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             LinearLayout linearLayout2 = new LinearLayout(this);
             linearLayout2.setGravity(Gravity.BOTTOM);
             linearLayout2.setOrientation(LinearLayout.VERTICAL);
-            mTextView = new TextView(this);
-            mTextView.setGravity(Gravity.CENTER);
-            linearLayout2.addView(mTextView);
-            mTextView.setVisibility(View.GONE);
+            if (mTextView!=null) {
+                mTextView = new TextView(this);
+                mTextView.setGravity(Gravity.CENTER);
+                linearLayout2.addView(mTextView);
+                mTextView.setVisibility(View.GONE);
+            }
             main.addView(linearLayout2);
         }
 
@@ -461,8 +465,10 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         // TODO Auto-generated method stub
-        if (myCamera != null) {
+        if (myCamera != null && isPreview) {
             myCamera.autoFocus(myAutoFocusCallback1);
+        }else {
+            return true;
         }
         RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(
                 focusIndex.getLayoutParams());
@@ -743,9 +749,11 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
                     if (null != mActivity.get().myCamera && mActivity.get().isGetdataok == -1) {
 
                         try {
+                            Log.d("zxh", "callback1");
                             mActivity.get().myCamera.autoFocus(mActivity.get().myAutoFocusCallback1);
 
                         } catch (Exception e) {
+                            Log.d("zxh", "callback1 error");
                             e.printStackTrace();
                         }
 
@@ -755,8 +763,12 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
                 case auto_focus:
                     if (null != mActivity.get().myCamera) {
                         try {
-                            mActivity.get().myCamera.autoFocus(mActivity.get().myAutoFocusCallback);
+                            Log.d("zxh", "callback");
+                            mActivity.get().mHandler.sendEmptyMessageDelayed(take_pic_ok, 600);
+
+//                            mActivity.get().myCamera.autoFocus(mActivity.get().myAutoFocusCallback);
                         } catch (Exception e) {
+                            Log.d("zxh", "callback error");
                             e.printStackTrace();
                         }
                     }
@@ -790,7 +802,9 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
                     mActivity.get().isGetdataok = 1;
                     if (isOpenProgress == true) {
                         mActivity.get().mProgressBar.setVisibility(View.VISIBLE);
-                        mActivity.get().mTextView.setVisibility(View.VISIBLE);
+                        if (mActivity.get().mTextView!=null) {
+                            mActivity.get().mTextView.setVisibility(View.VISIBLE);
+                        }
                     }
                     mActivity.get().MyThread.start();
                     break;
@@ -855,6 +869,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
     {
         if (myCamera == null) {
             myCamera = Camera.open();
+
             if (myCamera == null) {
                 mHandler.sendEmptyMessage(closeview);
                 return;
@@ -893,7 +908,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
         List<Size> MinSize = new ArrayList<Camera.Size>();
         Size tempSize;
 
-		/*屏幕分辨率排序*/
+        /*屏幕分辨率排序*/
         for (int j = ViewSize.size(); j >= 0; j--) {
             for (int i = 0; i < j - 1; i++) {
                 if (ViewSize.get(i).width > ViewSize.get(i + 1).width) {
@@ -904,7 +919,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             }
         }
 
-		/*图片分辨率排序*/
+        /*图片分辨率排序*/
         for (int j = picSize.size(); j >= 0; j--) {
             for (int i = 0; i < j - 1; i++) {
                 if (picSize.get(i).width > picSize.get(i + 1).width) {
@@ -923,7 +938,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             }
         }
 
-		/*查找与屏幕分辨率一致的图片分辨率*/
+        /*查找与屏幕分辨率一致的图片分辨率*/
         for (int i = ViewSize.size() - 1; i >= 0; i--) {
             if (ViewSize.get(i).width <= 1500) {
                 for (int j = MinSize.size() - 1; j >= 0; j--) {
@@ -958,7 +973,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             }
         }
 
-		/*未找到与屏幕分辨率相匹配的图片分辨率的情况下，采用最接近1024的图片分辨率*/
+        /*未找到与屏幕分辨率相匹配的图片分辨率的情况下，采用最接近1024的图片分辨率*/
         if (picSize.size() > 0) {
             for (int i = 0; i < picSize.size(); i++) {
                 if (picSize.get(i).width >= 1024) {
@@ -972,7 +987,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
                 }
             }
 
-			/*分辨率均较小，采用最大图片分辨率*/
+            /*分辨率均较小，采用最大图片分辨率*/
             parameters.setPictureSize(picSize.get(picSize.size() - 1).width, picSize.get(picSize.size() - 1).height);
             if (isOpenLog == true) {
                 String info = "pic size width=" + (picSize.get(picSize.size() - 1).width) + "    height= " + picSize.get(picSize.size() - 1).height + "\n";
@@ -1029,7 +1044,7 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             List<Size> ViewSize = myParam.getSupportedPreviewSizes();
             Size tempSize;
 
-			/*屏幕分辨率排序*/
+            /*屏幕分辨率排序*/
             for (int j = ViewSize.size(); j >= 0; j--) {
                 for (int i = 0; i < j - 1; i++) {
                     if (ViewSize.get(i).width > ViewSize.get(i + 1).width) {
@@ -1066,7 +1081,12 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
             myParam.set("rotation", 0);
             myCamera.setDisplayOrientation(0);
             try {
+                Camera.Size optionSize = getOptimalPreviewSize(ViewSize, surfaceView.getWidth(), surfaceView.getHeight());//获取一个最为适配的camera.size
+                Log.d("zxh", "optionSize : mSurfaceView " + surfaceView.getWidth() + " * " + surfaceView.getHeight());
+                Log.d("zxh", "optionSize : " + optionSize.width + " * " + optionSize.height);
+                myParam.setPreviewSize(optionSize.width, optionSize.height);//把camera.size赋值到parameters
                 myCamera.setParameters(myParam);
+
             } catch (Exception e) {
 //				ToastUtils.e(this,"设备不支持").show();
                 Toast.makeText(this, "设备不支持", Toast.LENGTH_SHORT).show();
@@ -1355,6 +1375,47 @@ public class TRCardScan extends Activity implements SurfaceHolder.Callback, CBIn
         }
 
         return retSize;
+    }
+
+    /**
+     * 解决预览变形问题
+     *
+     * @param sizes
+     * @param w
+     * @param h
+     * @return
+     */
+    private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
+        final double ASPECT_TOLERANCE = 0.1;
+        double targetRatio = (double) w / h;
+        if (sizes == null) return null;
+
+        Camera.Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+
+        int targetHeight = h;
+
+        // Try to find an size match aspect ratio and size
+        for (Camera.Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+
+        // Cannot find the one match the aspect ratio, ignore the requirement
+        if (optimalSize == null) {
+            minDiff = Double.MAX_VALUE;
+            for (Camera.Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        return optimalSize;
     }
 
 

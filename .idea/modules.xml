@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IDCardScane.iml" filepath="$PROJECT_DIR$/IDCardScane.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IDCardScann.iml" filepath="$PROJECT_DIR$/IDCardScann.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/myapplication/myapplication.iml" filepath="$PROJECT_DIR$/myapplication/myapplication.iml" />
     </modules>

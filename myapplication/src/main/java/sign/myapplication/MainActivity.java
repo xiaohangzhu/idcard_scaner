@@ -1,9 +1,12 @@
 package sign.myapplication;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -36,65 +39,73 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         scaner = new CardScaner(this);
 
-        scaner.GetDataListener(new CardScaner.DataListener() {
-            @Override
-            public void data(int i, Object object) {
-                switch (i) {
-                    case CardScaner.IDCardFront:
-                        CardInfo cardInfoFront;
-                        cardInfoFront = (CardInfo) object;
-                        String contentFront = cardInfoFront.getFieldString(TFieldID.NAME) +
-                                cardInfoFront.getFieldString(TFieldID.SEX) +
-                                cardInfoFront.getFieldString(TFieldID.FOLK) +
-                                cardInfoFront.getFieldString(TFieldID.BIRTHDAY) +
-                                cardInfoFront.getFieldString(TFieldID.ADDRESS) +
-                                cardInfoFront.getFieldString(TFieldID.NUM);
-                        Toast.makeText(MainActivity.this, contentFront, Toast.LENGTH_LONG).show();
-                        Log.i("zxh", "dataFront:" + contentFront);
-                        break;
-                    case CardScaner.IDCardBack:
-                        CardInfo cardInfoBack;
-                        cardInfoBack = (CardInfo) object;
-                        String contentBack =
-                                cardInfoBack.getFieldString(TFieldID.ISSUE) +
-                                        cardInfoBack.getFieldString(TFieldID.PERIOD);
-                        Toast.makeText(MainActivity.this, contentBack, Toast.LENGTH_LONG).show();
-                        Log.i("zxh", "dataBack:" + contentBack);
-                        break;
-                    case CardScaner.BankCard:
-                        CardInfo bankCardInfo;
-                        bankCardInfo = (CardInfo) object;
-                        String contentBank =
-                                bankCardInfo.getFieldString(TFieldID.TBANK_NUM) +
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_CARD_NAME) +
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_CLASS) +
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_ORGCODE) +
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_NAME) +
-                                        bankCardInfo.getFieldString(TFieldID.TBANK_NUM_REGION);
-                        Toast.makeText(MainActivity.this, contentBank, Toast.LENGTH_LONG).show();
-                        Log.i("zxh", "dataBack:" + contentBank);
-                        break;
-                }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},10);
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-            @Override
-            public void error() {
-                Toast.makeText(MainActivity.this, "识别信息不完整，请重新选择图片", Toast.LENGTH_LONG).show();
-                Log.i("zxh", "error");
-            }
+//        scaner.GetDataListener(new CardScaner.DataListener() {
+//            @Override
+//            public void data(int i, Object object) {
+//                switch (i) {
+//                    case CardScaner.IDCardFront:
+//                        CardInfo cardInfoFront;
+//                        cardInfoFront = (CardInfo) object;
+//                        String contentFront = cardInfoFront.getFieldString(TFieldID.NAME) +
+//                                cardInfoFront.getFieldString(TFieldID.SEX) +
+//                                cardInfoFront.getFieldString(TFieldID.FOLK) +
+//                                cardInfoFront.getFieldString(TFieldID.BIRTHDAY) +
+//                                cardInfoFront.getFieldString(TFieldID.ADDRESS) +
+//                                cardInfoFront.getFieldString(TFieldID.NUM);
+//                        Toast.makeText(MainActivity.this, contentFront, Toast.LENGTH_LONG).show();
+//                        Log.i("zxh", "dataFront:" + contentFront);
+//                        break;
+//                    case CardScaner.IDCardBack:
+//                        CardInfo cardInfoBack;
+//                        cardInfoBack = (CardInfo) object;
+//                        String contentBack =
+//                                cardInfoBack.getFieldString(TFieldID.ISSUE) +
+//                                        cardInfoBack.getFieldString(TFieldID.PERIOD);
+//                        Toast.makeText(MainActivity.this, contentBack, Toast.LENGTH_LONG).show();
+//                        Log.i("zxh", "dataBack:" + contentBack);
+//                        break;
+//                    case CardScaner.BankCard:
+//                        CardInfo bankCardInfo;
+//                        bankCardInfo = (CardInfo) object;
+//                        String contentBank =
+//                                bankCardInfo.getFieldString(TFieldID.TBANK_NUM) +
+//                                        bankCardInfo.getFieldString(TFieldID.TBANK_CARD_NAME) +
+//                                        bankCardInfo.getFieldString(TFieldID.TBANK_CLASS) +
+//                                        bankCardInfo.getFieldString(TFieldID.TBANK_ORGCODE) +
+//                                        bankCardInfo.getFieldString(TFieldID.TBANK_NAME) +
+//                                        bankCardInfo.getFieldString(TFieldID.TBANK_NUM_REGION);
+//                        Toast.makeText(MainActivity.this, contentBank, Toast.LENGTH_LONG).show();
+//                        Log.i("zxh", "dataBack:" + contentBank);
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void error() {
+//                Toast.makeText(MainActivity.this, "识别信息不完整，请重新选择图片", Toast.LENGTH_LONG).show();
+//                Log.i("zxh", "error");
+//            }
+//
+//            @Override
+//            public void start() {
+//                Log.i("zxh", "start");
+//            }
+//
+//            @Override
+//            public void end() {
+//                Log.i("zxh", "end");
+//            }
+//        });
 
-            @Override
-            public void start() {
-                Log.i("zxh", "start");
-            }
-
-            @Override
-            public void end() {
-                Log.i("zxh", "end");
-            }
-        });
-
-        scaner.getIDCardFrontData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test3)));
+//        scaner.getIDCardFrontData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test3)));
 //        scaner.getIDCardBackData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test7)));
 //        scaner.getBankCardData(FormatTools.getInstance().drawable2Bitmap(getResources().getDrawable(R.drawable.test)));
     }
@@ -119,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startActivity2(View view) {
+        scaner.scanIDCardFront(this);
     }
 
     @Override
@@ -148,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "扫描失败，请保证身份证清晰", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                imageView.setImageBitmap(takeFront);
                 Toast.makeText(MainActivity.this, "姓名：" + cardInfo.getFieldString(TFieldID.NAME) + "\n"
                         + "身份证号：" + cardInfo.getFieldString(TFieldID.NUM) + "\n"
                         + "家庭住址：" + cardInfo.getFieldString(TFieldID.ADDRESS), Toast.LENGTH_SHORT).show();

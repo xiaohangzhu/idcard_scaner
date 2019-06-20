@@ -9,6 +9,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi'
+            // 还可以添加 'armeabi','armeabi-v7a','armeabi', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     buildTypes {
         release {
